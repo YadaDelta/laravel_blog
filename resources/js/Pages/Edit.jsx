@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
 export default function Edit({ user }) {
-    const { data, setData, put, errors, processing } = useForm({
+    const { setData, put, processing } = useForm({
         email: user.email,
         fullname: user.fullname,
         sex: user.sex,

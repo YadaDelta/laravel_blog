@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
 export default function Create() {
-    const { data, setData, post, errors, processing } = useForm({
+    const { setData, post, processing } = useForm({
         email: "",
         fullname: "",
         sex: "",

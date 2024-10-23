@@ -56,7 +56,10 @@ class UserTestTest extends TestCase
         ]);
 
         $this->put('/users/1', [
+            'email' => 'test@mail.ru',
             'fullname' => 'Daniel Yoshin',
+            'sex' => 'male',
+            'birthday' => '06.09.2000',
         ]);
 
         $this->assertDatabaseMissing('user_tests', [
