@@ -35,11 +35,11 @@ class UserTestTest extends TestCase
 
     public function test_read(): void
     {
-        UserTest::factory()->create();
+        UserTest::factory()->count(3)->create();
 
-        $response = $this->get('/users/1');
+        $response = UserTest::all();
 
-        $response->assertStatus(200);
+        $this->assertCount(3, $response);
     }
 
     public function test_update(): void

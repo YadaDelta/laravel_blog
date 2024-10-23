@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from "@inertiajs/react";
 
 export default function Edit({ user }) {

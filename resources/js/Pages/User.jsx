@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useForm } from "@inertiajs/react";
 import Button from 'react-bootstrap/Button';
 
