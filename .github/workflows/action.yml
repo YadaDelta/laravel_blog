@@ -41,7 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: stefanoeb/eslint-action@1.0.2
-      with:
-        files: resources/
+    - uses: actions/checkout@v4
+    - name: install dependencies
+      run: npm ci
+    - name: lint
+      run: npx eslint resources/
