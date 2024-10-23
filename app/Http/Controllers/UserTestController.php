@@ -63,7 +63,10 @@ class UserTestController extends Controller
     public function update(Request $request, UserTest $user)
     {
         $data = $request->validate([
+            'email' => ['required'],
             'fullname' => ['required'],
+            'sex' => ['required'],
+            'birthday' => ['required'],
         ]);
         $user->update($data);
 
