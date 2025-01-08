@@ -27,17 +27,17 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
+      - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test
       - name: Execute linter via laravel/pint
         run: ./vendor/bin/pint
       - name: Execute linter via PHPCS
         run: ./vendor/bin/phpcs --standard=PSR12 app/Http/Controllers app/Models database routes/web.php tests
       - name: Execute linter via PHPStan
         run: ./vendor/bin/phpstan analyse app/Http/Controllers app/Models database routes/web.php tests
-      - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: php artisan test
 
   js-lint:
     runs-on: ubuntu-latest
