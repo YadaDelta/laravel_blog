@@ -175,7 +175,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
             <Container className="d-flex justify-content-center m-3">
                 {posts.links.map((link) => (
                     <Link className="mx-1" key={link.label} href={link.url}>
-                        <Button className="mx-1">
+                        <Button>
                             {link.label
                                 .replace("&laquo; Previous", "<< Предыдущая")
                                 .replace("Next &raquo;", "Следующая >>")}

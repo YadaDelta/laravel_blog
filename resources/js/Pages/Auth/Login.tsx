@@ -52,7 +52,7 @@ const Login: FC = () => {
                         type="submit"
                         disabled={processing}
                     >
-                        Создать
+                        Войти
                     </Button>
                 </Form>
             </Container>
