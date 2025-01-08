@@ -11,14 +11,23 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::query()->with('tags')->with('comments')
-            ->when($request->input('search'), function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->when($request->input('tags'), function ($query, $tags) {
-                $query->whereHas('tags', function($query) use ($tags){
-                    $query->where('name', 'like', "%{$tags}%");
-                });
-            })
+            ->when(
+                $request->input('search'),
+                function ($query, $search) {
+                    $query->where('name', 'like', "%{$search}%");
+                }
+            )
+            ->when(
+                $request->input('tags'),
+                function ($query, $tags) {
+                    $query->whereHas(
+                        'tags',
+                        function ($query) use ($tags) {
+                            $query->where('name', 'like', "%{$tags}%");
+                        }
+                    );
+                }
+            )
             ->where('draft', 'like', "no")
             ->paginate(5)
             ->withQueryString();
@@ -48,13 +57,15 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'user_id' => ['required'],
             'name' => ['required'],
             'text' => ['required'],
             'image' => ['required'],
             'draft' => ['required'],
-        ]);
+            ]
+        );
         if ($request->has('tags')) {
             $post->tags()->sync($request->tags);
         }
@@ -65,21 +76,25 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate(
+            [
             'user_id' => ['required'],
             'name' => ['required'],
             'text' => ['required'],
             'image' => ['required'],
             'draft' => ['required'],
-        ]);
+            ]
+        );
 
-        $post = Post::create([
+        $post = Post::create(
+            [
             'user_id' => $request->user_id,
             'name' => $request->name,
             'text' => $request->text,
             'image' => $request->image,
             'draft' => $request->draft,
-        ]);
+            ]
+        );
         if ($request->has('tags')) {
             $post->tags()->attach($request->tags);
         }

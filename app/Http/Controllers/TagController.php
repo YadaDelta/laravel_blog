@@ -14,10 +14,12 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'post_id' => ['required'],
             'name' => ['required'],
-        ]);
+            ]
+        );
         Tag::create($data);
 
         return redirect('/');

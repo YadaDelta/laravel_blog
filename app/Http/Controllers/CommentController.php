@@ -9,11 +9,13 @@ class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'post_id' => ['required'],
             'author' => ['required'],
             'text' => ['required'],
-        ]);
+            ]
+        );
         Comment::create($data);
     }
 }

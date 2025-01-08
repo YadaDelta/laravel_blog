@@ -30,12 +30,14 @@ class UserTestController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'email' => ['required'],
             'fullname' => ['required'],
             'sex' => ['required'],
             'birthday' => ['required'],
-        ]);
+            ]
+        );
         UserTest::create($data);
 
         return redirect('/');
@@ -62,12 +64,14 @@ class UserTestController extends Controller
      */
     public function update(Request $request, UserTest $user)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'email' => ['required'],
             'fullname' => ['required'],
             'sex' => ['required'],
             'birthday' => ['required'],
-        ]);
+            ]
+        );
         $user->update($data);
 
         return redirect('/');
