@@ -32,10 +32,10 @@ class UserTestController extends Controller
     {
         $data = $request->validate(
             [
-            'email' => ['required'],
-            'fullname' => ['required'],
-            'sex' => ['required'],
-            'birthday' => ['required'],
+                'email' => ['required'],
+                'fullname' => ['required'],
+                'sex' => ['required'],
+                'birthday' => ['required'],
             ]
         );
         UserTest::create($data);
@@ -66,10 +66,10 @@ class UserTestController extends Controller
     {
         $data = $request->validate(
             [
-            'email' => ['required'],
-            'fullname' => ['required'],
-            'sex' => ['required'],
-            'birthday' => ['required'],
+                'email' => ['required'],
+                'fullname' => ['required'],
+                'sex' => ['required'],
+                'birthday' => ['required'],
             ]
         );
         $user->update($data);

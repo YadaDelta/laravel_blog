@@ -10,14 +10,14 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCreateRandom(): void
+    public function test_create_random(): void
     {
         User::factory()->count(10)->create();
 
         $this->assertDatabaseCount('users', 10);
     }
 
-    public function testCreate(): void
+    public function test_create(): void
     {
         $response = $this->post('/users', [
             'name' => 'Daniil Yashin',
@@ -32,7 +32,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testRead(): void
+    public function test_read(): void
     {
         User::factory()->count(3)->create();
 
@@ -41,7 +41,7 @@ class UserTest extends TestCase
         $this->assertCount(3, $response);
     }
 
-    public function testUpdate(): void
+    public function test_update(): void
     {
         $this->post('/users', [
             'name' => 'Daniil Yashin',
@@ -68,7 +68,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testDelete(): void
+    public function test_delete(): void
     {
         $this->post('/users', [
             'name' => 'Daniil Yashin',

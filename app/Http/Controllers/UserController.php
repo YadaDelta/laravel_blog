@@ -11,7 +11,6 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -27,9 +26,9 @@ class UserController extends Controller
     {
         $data = $request->validate(
             [
-            'name' => ['required'],
-            'email' => ['required'],
-            'password' => ['required'],
+                'name' => ['required'],
+                'email' => ['required'],
+                'password' => ['required'],
             ]
         );
         User::create($data);
@@ -87,9 +86,9 @@ class UserController extends Controller
     {
         $data = $request->validate(
             [
-            'name' => ['required'],
-            'email' => ['required'],
-            'password' => ['required'],
+                'name' => ['required'],
+                'email' => ['required'],
+                'password' => ['required'],
             ]
         );
         $user->update($data);

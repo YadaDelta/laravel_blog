@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -18,8 +18,8 @@ class LoginController extends Controller
     {
         $credentials = $request->validate(
             [
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+                'email' => ['required', 'email'],
+                'password' => ['required'],
             ]
         );
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
 
         return back()->withErrors(
             [
-            'email' => 'The provided credentials do not match our records.',
+                'email' => 'The provided credentials do not match our records.',
             ]
         )->onlyInput('email');
     }

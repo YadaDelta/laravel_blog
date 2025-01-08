@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -28,7 +28,7 @@ class PostController extends Controller
                     );
                 }
             )
-            ->where('draft', 'like', "no")
+            ->where('draft', 'like', 'no')
             ->paginate(5)
             ->withQueryString();
 
@@ -38,6 +38,7 @@ class PostController extends Controller
     public function create()
     {
         $tags = Tag::all();
+
         return inertia('Post/Create', ['tags' => $tags]);
     }
 
@@ -45,6 +46,7 @@ class PostController extends Controller
     {
         $comments = $post->comments()->get();
         $tags = $post->tags()->get();
+
         return inertia('Post', ['postData' => $post, 'comments' => $comments, 'tags' => $tags]);
     }
 
@@ -52,6 +54,7 @@ class PostController extends Controller
     {
         $postTags = $post->tags()->get();
         $allTags = Tag::all();
+
         return inertia('Post/Edit', ['post' => $post, 'allTags' => $allTags, 'postTags' => $postTags]);
     }
 
@@ -59,11 +62,11 @@ class PostController extends Controller
     {
         $data = $request->validate(
             [
-            'user_id' => ['required'],
-            'name' => ['required'],
-            'text' => ['required'],
-            'image' => ['required'],
-            'draft' => ['required'],
+                'user_id' => ['required'],
+                'name' => ['required'],
+                'text' => ['required'],
+                'image' => ['required'],
+                'draft' => ['required'],
             ]
         );
         if ($request->has('tags')) {
@@ -78,21 +81,21 @@ class PostController extends Controller
     {
         $request->validate(
             [
-            'user_id' => ['required'],
-            'name' => ['required'],
-            'text' => ['required'],
-            'image' => ['required'],
-            'draft' => ['required'],
+                'user_id' => ['required'],
+                'name' => ['required'],
+                'text' => ['required'],
+                'image' => ['required'],
+                'draft' => ['required'],
             ]
         );
 
         $post = Post::create(
             [
-            'user_id' => $request->user_id,
-            'name' => $request->name,
-            'text' => $request->text,
-            'image' => $request->image,
-            'draft' => $request->draft,
+                'user_id' => $request->user_id,
+                'name' => $request->name,
+                'text' => $request->text,
+                'image' => $request->image,
+                'draft' => $request->draft,
             ]
         );
         if ($request->has('tags')) {

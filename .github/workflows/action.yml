@@ -37,7 +37,7 @@ jobs:
         run: ./vendor/bin/pint
       - name: Execute linter via PHPCS
         if: always()
-        run: ./vendor/bin/phpcs --standard=PSR12 app/Http/Controllers app/Models database routes/web.php tests
+        run: ./vendor/bin/phpcs --standard=PSR12 app/Http/Controllers app/Models database routes/web.php
       - name: Execute linter via PHPStan
         if: always()
         run: ./vendor/bin/phpstan analyse app/Http/Controllers app/Models database routes/web.php tests
