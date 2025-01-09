@@ -20,7 +20,7 @@ const Create: FC<CreateProps> = ({ tags }) => {
         user_id: auth?.user?.id,
         name: "",
         text: "",
-        image: "",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg-EWqSbV5RUGPHMjJgcsvRsJtNYp3Y8Y4Lw&s",
         draft: "no",
         tags: [] as string[],
     });
@@ -73,7 +73,6 @@ const Create: FC<CreateProps> = ({ tags }) => {
                     >
                         <Form.Label>Ссылка на изображение</Form.Label>
                         <Form.Control
-                            required
                             type="text"
                             placeholder="Введите ссылку на изображение"
                         />

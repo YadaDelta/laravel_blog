@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::query()->with('tags')->with('comments')
+        $posts = QueryBuilder::for(Post::class)->with('tags')->with('comments')
             ->when(
                 $request->input('search'),
                 function ($query, $search) {
@@ -32,7 +33,7 @@ class PostController extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        return inertia('Home', ['posts' => $posts, 'filters' => $request->only(['search', 'tags'])]);
+        return inertia('Home', ['posts' => $posts, 'filters' => $request->only(['filter[name]', 'tags'])]);
     }
 
     public function create()

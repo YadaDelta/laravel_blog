@@ -172,7 +172,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                     );
                 })}
             </Container>
-            <Container className="d-flex justify-content-center m-3">
+            <Container className="d-flex justify-content-center mx-auto my-3">
                 {posts.links.map((link) => (
                     <Link className="mx-1" key={link.label} href={link.url}>
                         <Button>
