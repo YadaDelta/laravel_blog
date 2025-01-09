@@ -21,7 +21,7 @@ const Create: FC<CreateProps> = ({ tags }) => {
         name: "",
         text: "",
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg-EWqSbV5RUGPHMjJgcsvRsJtNYp3Y8Y4Lw&s",
-        draft: "no",
+        draft: false,
         tags: [] as string[],
     });
 
@@ -101,9 +101,9 @@ const Create: FC<CreateProps> = ({ tags }) => {
                     <Form.Group
                         className="mb-3"
                         controlId="formBasicDraft"
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setData("draft", e.target.checked ? "yes" : "no")
-                        }
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setData("draft", e.target.checked);
+                        }}
                     >
                         <Form.Check
                             type="switch"

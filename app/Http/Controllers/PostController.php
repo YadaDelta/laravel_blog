@@ -29,11 +29,11 @@ class PostController extends Controller
                     );
                 }
             )
-            ->where('draft', 'like', 'no')
+            ->where('draft', '=', 'false')
             ->paginate(5)
             ->withQueryString();
-
-        return inertia('Home', ['posts' => $posts, 'filters' => $request->only(['filter[name]', 'tags'])]);
+                
+        return inertia('Home', ['posts' => $posts, 'filters' => $request->only(['search', 'tags'])]);
     }
 
     public function create()

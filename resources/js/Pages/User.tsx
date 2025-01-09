@@ -111,14 +111,14 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                 {posts.data.map((post) => {
                     const small_text =
                         post.text.length > 150
-                            ? post.text.substr(0, 150) + "..."
+                            ? post.text.substring(0, 150) + "..."
                             : post.text;
                     return (
                         <Container
                             key={post.id}
                             className="bg-light shadow rounded mt-4 p-2 border border-primary text-center"
                         >
-                            {post.draft === "yes" ? <h4>Черновик</h4> : null}
+                            {post.draft ? <h4>Черновик</h4> : null}
                             <Image
                                 src={post.image}
                                 rounded
