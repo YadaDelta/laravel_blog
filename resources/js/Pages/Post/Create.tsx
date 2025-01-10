@@ -110,7 +110,7 @@ const Create: FC<CreateProps> = ({ tags }) => {
                             as="button"
                             href="/tags"
                             method="post"
-                            data={{ post_id: "2", name: newTag }}
+                            data={{ name: newTag }}
                         >
                             Добавить
                         </Link>

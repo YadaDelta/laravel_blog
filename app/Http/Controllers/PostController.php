@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\States\Draft as Draft;
+use App\States\Published as Published;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -14,7 +16,7 @@ class PostController extends Controller
     {
         $posts = QueryBuilder::for(Post::class)->with('tags')->with('comments')
             ->allowedFilters([AllowedFilter::partial('search', 'name'), AllowedFilter::partial('tags', 'tags.name')])
-            ->whereIn('draft', ['false', '0'])
+            ->where('state', '=', 'published')
             ->paginate(5)
             ->withQueryString();
 
@@ -52,13 +54,24 @@ class PostController extends Controller
                 'name' => ['required'],
                 'text' => ['required'],
                 'image' => ['required'],
-                'draft' => ['required'],
             ]
         );
         if ($request->has('tags')) {
             $post->tags()->sync($request->tags);
         }
         $post->update($data);
+
+        if ($request->state == 'published') {
+            if (! $post->state->equals(Published::class)) {
+                $post->state->transitionTo(Published::class);
+                $post->save();
+            }
+        } else {
+            if (! $post->state->equals(Draft::class)) {
+                $post->state->transitionTo(Draft::class);
+                $post->save();
+            }
+        }
 
         return redirect("/users/{$post->user_id}");
     }
@@ -71,7 +84,6 @@ class PostController extends Controller
                 'name' => ['required'],
                 'text' => ['required'],
                 'image' => ['required'],
-                'draft' => ['required'],
             ]
         );
 
@@ -81,11 +93,15 @@ class PostController extends Controller
                 'name' => $request->name,
                 'text' => $request->text,
                 'image' => $request->image,
-                'draft' => $request->draft,
             ]
         );
         if ($request->has('tags')) {
             $post->tags()->attach($request->tags);
+        }
+
+        if (! $request->draft) {
+            $post->state->transitionTo(Published::class);
+            $post->save();
         }
 
         return redirect("/users/{$post->user_id}");

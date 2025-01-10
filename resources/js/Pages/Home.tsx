@@ -141,7 +141,11 @@ const Home: FC<HomeProps> = ({ posts, filters }) => {
                                     </Button>
                                 </Link>
                             ) : (
-                                <Button disabled key={link.label}>
+                                <Button
+                                    className="mx-1"
+                                    disabled
+                                    key={link.label}
+                                >
                                     {link.label
                                         .replace(
                                             "&laquo; Previous",

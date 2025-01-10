@@ -1,13 +1,8 @@
 <?php
 
-namespace App\States\Post;
+namespace App\States;
 
 class Draft extends PostState
 {
     protected static $name = 'draft';
-}
-
-class Published extends PostState
-{
-    protected static $name = 'published';
 }

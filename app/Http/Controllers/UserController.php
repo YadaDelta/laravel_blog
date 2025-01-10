@@ -46,7 +46,7 @@ class UserController extends Controller
         $userPosts = $user->posts();
         $posts = QueryBuilder::for($userPosts)->with('tags')->with('comments')
             ->allowedFilters([AllowedFilter::partial('search', 'name'),
-                AllowedFilter::partial('tags', 'tags.name'), 'draft'])
+                AllowedFilter::partial('tags', 'tags.name'), 'state'])
             ->paginate(5)
             ->withQueryString();
 

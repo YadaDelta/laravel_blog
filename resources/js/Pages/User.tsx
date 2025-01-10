@@ -16,7 +16,7 @@ interface UserProps {
             text: string;
             image: string;
             name: string;
-            draft: string;
+            state: string;
             tags: Array<{
                 id: number;
                 name: string;
@@ -32,7 +32,7 @@ interface UserProps {
         filter: any;
         "filter[search]": string;
         "filter[tags]": string;
-        "filter[draft]": boolean;
+        "filter[state]": string;
     };
 }
 
@@ -51,14 +51,14 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                 <div className="me-3 my-auto px-2 rounded">
                     <select
                         className="ms-2"
-                        name="draft"
-                        id="draft"
-                        defaultValue={filters.filter?.draft}
+                        name="state"
+                        id="state"
+                        defaultValue={filters.filter?.state}
                         onChange={(e) =>
                             router.get(
                                 `/users/${user.id}`,
                                 {
-                                    "filter[draft]": e.target.value,
+                                    "filter[state]": e.target.value,
                                     "filter[search]": filters.filter?.search,
                                     "filter[tags]": filters.filter?.tags,
                                 },
@@ -67,8 +67,8 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                         }
                     >
                         <option value="">Все посты</option>
-                        <option value="1">Черновики</option>
-                        <option value="0">Опубликованные</option>
+                        <option value="draft">Черновики</option>
+                        <option value="published">Опубликованные</option>
                     </select>
                 </div>
                 <input
@@ -80,7 +80,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                         router.get(
                             `/users/${user.id}`,
                             {
-                                "filter[draft]": filters.filter?.draft,
+                                "filter[state]": filters.filter?.state,
                                 "filter[search]": e.target.value,
                                 "filter[tags]": filters.filter?.tags,
                             },
@@ -97,7 +97,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                         router.get(
                             `/users/${user.id}`,
                             {
-                                "filter[draft]": filters.filter?.draft,
+                                "filter[state]": filters.filter?.state,
                                 "filter[tags]": e.target.value,
                                 "filter[search]": filters.filter?.search,
                             },
@@ -117,7 +117,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                             key={post.id}
                             className="bg-light shadow rounded mt-4 p-2 border border-primary text-center"
                         >
-                            {post.draft ? <h4>Черновик</h4> : null}
+                            {post.state === "draft" ? <h4>Черновик</h4> : null}
                             <Image
                                 src={post.image}
                                 rounded
@@ -185,7 +185,7 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                             </Button>
                         </Link>
                     ) : (
-                        <Button disabled key={link.label}>
+                        <Button className="mx-1" disabled key={link.label}>
                             {link.label
                                 .replace("&laquo; Previous", "<< Предыдущая")
                                 .replace("Next &raquo;", "Следующая >>")}

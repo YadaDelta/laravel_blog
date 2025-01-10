@@ -9,7 +9,7 @@ interface Post {
     name: string;
     text: string;
     image: string;
-    draft: string;
+    state: string;
     id: number;
 }
 
@@ -30,7 +30,7 @@ const Edit: FC<EditProps> = ({ post, allTags, postTags }) => {
         name: post.name,
         text: post.text,
         image: post.image,
-        draft: post.draft,
+        state: post.state,
         tags: postTags.map((a) => a.id),
     });
 
@@ -119,10 +119,13 @@ const Edit: FC<EditProps> = ({ post, allTags, postTags }) => {
                         className="mb-3"
                         controlId="formBasicDraft"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setData("draft", e.target.checked ? "yes" : "no")
+                            setData(
+                                "state",
+                                e.target.checked ? "draft" : "published"
+                            )
                         }
                     >
-                        {post.draft === "yes" ? (
+                        {post.state === "draft" ? (
                             <Form.Check
                                 type="switch"
                                 id="formBasicDraft"
