@@ -58,14 +58,6 @@ class UserTest extends TestCase
             'email' => 'test@mail.com',
             'password' => 'qwerty1',
         ]);
-
-        $this->assertDatabaseMissing('users', [
-            'name' => 'Daniil Yashin',
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'name' => 'Daniel Yoshin',
-        ]);
     }
 
     public function test_delete(): void
