@@ -22,7 +22,7 @@
 -   Make
 -   Node
 
-## Установка через Make
+## Установка через Make + Docker
 
 ```
 git clone https://github.com/YadaDelta/laravel_blog.git

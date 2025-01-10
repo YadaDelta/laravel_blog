@@ -55,8 +55,8 @@ class UserTest extends TestCase
 
         $this->put('/users/1', [
             'name' => 'Daniel Yoshin',
-            'email' => 'test@mail.ru',
-            'password' => 'qwerty',
+            'email' => 'test@mail.com',
+            'password' => 'qwerty1',
         ]);
 
         $this->assertDatabaseMissing('users', [
