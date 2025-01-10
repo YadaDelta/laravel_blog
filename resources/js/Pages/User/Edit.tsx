@@ -7,9 +7,8 @@ import Container from "react-bootstrap/Container";
 interface User {
     id: number;
     email: string;
-    fullname: string;
-    sex: string;
-    birthday: string;
+    name: string;
+    password: string;
 }
 
 interface EditProps {
@@ -18,10 +17,9 @@ interface EditProps {
 
 const Edit: FC<EditProps> = ({ user }) => {
     const { setData, put, processing } = useForm({
+        name: user.name,
         email: user.email,
-        fullname: user.fullname,
-        sex: user.sex,
-        birthday: user.birthday,
+        password: user.password,
     });
 
     const submit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -33,7 +31,7 @@ const Edit: FC<EditProps> = ({ user }) => {
         <Container className="d-flex justify-content-center w-50">
             <Container>
                 <h3 className="mt-3">
-                    Изменение пользователя &quot;{user.fullname}&quot;.
+                    Изменение пользователя &quot;{user.name}&quot;.
                 </h3>
                 <Form onSubmit={submit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -53,34 +51,20 @@ const Edit: FC<EditProps> = ({ user }) => {
                             required
                             type="text"
                             placeholder="Введите Ваше имя"
-                            defaultValue={user.fullname}
-                            onChange={(e) =>
-                                setData("fullname", e.target.value)
-                            }
+                            defaultValue={user.name}
+                            onChange={(e) => setData("name", e.target.value)}
                         />
                     </Form.Group>
 
-                    <Form.Label>Ваш пол</Form.Label>
-                    <Form.Select
-                        defaultValue={user.sex}
-                        className="mb-3"
-                        onChange={(e) => setData("sex", e.target.value)}
-                    >
-                        <option value="Неизвестно">Выберите пол</option>
-                        <option>Мужской</option>
-                        <option>Женский</option>
-                        <option value="Неизвестно">Не скажу</option>
-                    </Form.Select>
-
-                    <Form.Group className="mb-3" controlId="formBasicBirthday">
-                        <Form.Label>День рождения</Form.Label>
+                    <Form.Group className="mb-3" controlId="formBasicName">
+                        <Form.Label>Пароль</Form.Label>
                         <Form.Control
                             required
-                            type="date"
-                            placeholder="Введите Ваш день рождения"
-                            defaultValue={user.birthday}
+                            type="text"
+                            placeholder="Введите Ваш пароль"
+                            defaultValue={user.password}
                             onChange={(e) =>
-                                setData("birthday", e.target.value)
+                                setData("password", e.target.value)
                             }
                         />
                     </Form.Group>

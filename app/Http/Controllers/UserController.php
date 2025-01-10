@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -43,6 +44,10 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request)
     {
+        if (Auth::id() !== $user->id) {
+            return redirect('/');
+        }
+
         $userPosts = $user->posts();
         $posts = QueryBuilder::for($userPosts)->with('tags')->with('comments')
             ->allowedFilters([AllowedFilter::partial('search', 'name'),
@@ -58,6 +63,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (Auth::id() !== $user->id) {
+            return redirect('/');
+        }
+
         return inertia('User/Edit', ['user' => $user]);
     }
 
@@ -66,6 +75,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (Auth::id() !== $user->id) {
+            return redirect('/');
+        }
+
         $data = $request->validate(
             [
                 'name' => ['required'],

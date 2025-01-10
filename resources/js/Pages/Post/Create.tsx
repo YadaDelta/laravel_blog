@@ -72,7 +72,9 @@ const Create: FC<CreateProps> = ({ tags }) => {
                             setData("image", e.target.value)
                         }
                     >
-                        <Form.Label>Ссылка на изображение</Form.Label>
+                        <Form.Label>
+                            Ссылка на изображение (необязательно)
+                        </Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Введите ссылку на изображение"

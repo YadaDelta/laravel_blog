@@ -45,7 +45,7 @@ cp .env.example .env
 php artisan key:generate
 ./vendor/bin/sail up
 ./vendor/bin/sail php artisan migrate
-npm run dev
+./vendor/bin/sail npm run dev
 ```
 
 После установки сайт будет доступен по адресу http://0.0.0.0:80

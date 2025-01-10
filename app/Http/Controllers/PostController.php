@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\States\Draft as Draft;
 use App\States\Published as Published;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -40,6 +41,10 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        if (Auth::id() !== $post->user_id) {
+            return redirect('/');
+        }
+
         $postTags = $post->tags()->get();
         $allTags = Tag::all();
 
@@ -48,6 +53,10 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
+        if (Auth::id() !== $post->user_id) {
+            return redirect('/');
+        }
+
         $data = $request->validate(
             [
                 'user_id' => ['required'],
@@ -109,6 +118,10 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
+        if (Auth::id() !== $post->user_id) {
+            return redirect('/');
+        }
+
         $post->delete();
     }
 }
