@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -10,6 +10,7 @@ interface LoginForm {
 }
 
 const Login: FC = () => {
+    const { errors } = usePage<any>().props;
     const { setData, post, processing } = useForm<LoginForm>({
         email: "",
         password: "",
@@ -33,6 +34,7 @@ const Login: FC = () => {
                             placeholder="Введите Email"
                             onChange={(e) => setData("email", e.target.value)}
                         />
+                        {errors.email ? <div>{errors.email}</div> : null}
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">

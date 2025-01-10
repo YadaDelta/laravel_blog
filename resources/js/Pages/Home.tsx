@@ -16,8 +16,9 @@ interface Post {
 }
 
 interface Filters {
-    search: string;
-    tags: string;
+    filter: any;
+    "filter[search]": string;
+    "filter[tags]": string;
 }
 
 interface HomeProps {
@@ -39,13 +40,13 @@ const Home: FC<HomeProps> = ({ posts, filters }) => {
                             className="border border-primary rounded"
                             type="text"
                             placeholder="Поиск..."
-                            defaultValue={filters.search}
+                            defaultValue={filters.filter?.search}
                             onChange={(e) =>
                                 router.get(
                                     "/",
                                     {
-                                        search: e.target.value,
-                                        tags: filters.tags,
+                                        "filter[search]": e.target.value,
+                                        "filter[tags]": filters.filter?.tags,
                                     },
                                     { preserveState: true }
                                 )
@@ -55,13 +56,14 @@ const Home: FC<HomeProps> = ({ posts, filters }) => {
                             className="ms-3 border border-primary rounded"
                             type="text"
                             placeholder="Поиск по тегам..."
-                            defaultValue={filters.tags}
+                            defaultValue={filters.filter?.tags}
                             onChange={(e) =>
                                 router.get(
                                     "/",
                                     {
-                                        tags: e.target.value,
-                                        search: filters.search,
+                                        "filter[tags]": e.target.value,
+                                        "filter[search]":
+                                            filters.filter?.search,
                                     },
                                     { preserveState: true }
                                 )
@@ -118,14 +120,28 @@ const Home: FC<HomeProps> = ({ posts, filters }) => {
                             );
                         })}
                     </Container>
-                    <Container className="d-flex justify-content-center m-3">
-                        {posts.links.map((link) => (
-                            <Link
-                                className="mx-1"
-                                key={link.label}
-                                href={link.url}
-                            >
-                                <Button>
+                    <Container className="d-flex justify-content-center mx-auto my-3">
+                        {posts.links.map((link) =>
+                            link.url ? (
+                                <Link
+                                    className="mx-1"
+                                    key={link.label}
+                                    href={link.url}
+                                >
+                                    <Button>
+                                        {link.label
+                                            .replace(
+                                                "&laquo; Previous",
+                                                "<< Предыдущая"
+                                            )
+                                            .replace(
+                                                "Next &raquo;",
+                                                "Следующая >>"
+                                            )}
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Button disabled key={link.label}>
                                     {link.label
                                         .replace(
                                             "&laquo; Previous",
@@ -136,8 +152,8 @@ const Home: FC<HomeProps> = ({ posts, filters }) => {
                                             "Следующая >>"
                                         )}
                                 </Button>
-                            </Link>
-                        ))}
+                            )
+                        )}
                     </Container>
                 </Container>
             </Container>

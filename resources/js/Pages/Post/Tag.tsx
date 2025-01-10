@@ -5,13 +5,11 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 
 interface CreateFormData {
-    post_id: number;
     name: string;
 }
 
 const Create: FC = () => {
     const { setData, post, processing } = useForm<CreateFormData>({
-        post_id: 1,
         name: "",
     });
 

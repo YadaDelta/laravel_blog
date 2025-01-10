@@ -16,12 +16,9 @@ class TagController extends Controller
     {
         $data = $request->validate(
             [
-                'post_id' => ['required'],
                 'name' => ['required'],
             ]
         );
         Tag::create($data);
-
-        return redirect('/');
     }
 }

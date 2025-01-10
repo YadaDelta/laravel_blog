@@ -1,6 +1,5 @@
-import { FC } from "react";
-import { useForm } from "@inertiajs/react";
-import { usePage } from "@inertiajs/react";
+import { FC, useState } from "react";
+import { useForm, usePage, Link } from "@inertiajs/react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -24,6 +23,8 @@ const Create: FC<CreateProps> = ({ tags }) => {
         draft: false,
         tags: [] as string[],
     });
+
+    const [newTag, setNewTag] = useState<string>("");
 
     const submit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
@@ -78,7 +79,6 @@ const Create: FC<CreateProps> = ({ tags }) => {
                         />
                     </Form.Group>
                     <Form.Group
-                        className="mb-3"
                         controlId="formBasicTags"
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                             setData(
@@ -89,7 +89,7 @@ const Create: FC<CreateProps> = ({ tags }) => {
                             );
                         }}
                     >
-                        <Form.Label>Теги:</Form.Label>
+                        <Form.Label>Выбор тегов (Ctrl + клик):</Form.Label>
                         <Form.Control as="select" multiple>
                             {tags.map((tag: Tag) => (
                                 <option key={tag.id} value={tag.id}>
@@ -98,6 +98,23 @@ const Create: FC<CreateProps> = ({ tags }) => {
                             ))}
                         </Form.Control>
                     </Form.Group>
+                    <Container className="mb-3 p-0">
+                        <input
+                            className="py-1 my-1 rounded border w-50"
+                            type="newTag"
+                            placeholder="Добавить новый тег в список"
+                            onChange={(e) => setNewTag(e.target.value)}
+                        />
+                        <Link
+                            className="btn btn-primary"
+                            as="button"
+                            href="/tags"
+                            method="post"
+                            data={{ post_id: "2", name: newTag }}
+                        >
+                            Добавить
+                        </Link>
+                    </Container>
                     <Form.Group
                         className="mb-3"
                         controlId="formBasicDraft"
@@ -108,7 +125,7 @@ const Create: FC<CreateProps> = ({ tags }) => {
                         <Form.Check
                             type="switch"
                             id="formBasicDraft"
-                            label="Черновик"
+                            label="Черновик?"
                         />
                     </Form.Group>
                     <Button

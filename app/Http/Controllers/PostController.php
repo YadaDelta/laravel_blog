@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
@@ -12,28 +13,12 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = QueryBuilder::for(Post::class)->with('tags')->with('comments')
-            ->when(
-                $request->input('search'),
-                function ($query, $search) {
-                    $query->where('name', 'like', "%{$search}%");
-                }
-            )
-            ->when(
-                $request->input('tags'),
-                function ($query, $tags) {
-                    $query->whereHas(
-                        'tags',
-                        function ($query) use ($tags) {
-                            $query->where('name', 'like', "%{$tags}%");
-                        }
-                    );
-                }
-            )
-            ->where('draft', '=', 'false')
+            ->allowedFilters([AllowedFilter::partial('search', 'name'), AllowedFilter::partial('tags', 'tags.name')])
+            ->whereIn('draft', ['false', '0'])
             ->paginate(5)
             ->withQueryString();
-                
-        return inertia('Home', ['posts' => $posts, 'filters' => $request->only(['search', 'tags'])]);
+
+        return inertia('Home', ['posts' => $posts, 'filters' => $request]);
     }
 
     public function create()
@@ -75,7 +60,7 @@ class PostController extends Controller
         }
         $post->update($data);
 
-        return redirect('/');
+        return redirect("/users/{$post->user_id}");
     }
 
     public function store(Request $request)
@@ -103,7 +88,7 @@ class PostController extends Controller
             $post->tags()->attach($request->tags);
         }
 
-        return redirect('/');
+        return redirect("/users/{$post->user_id}");
     }
 
     public function destroy(Post $post)

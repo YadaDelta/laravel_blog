@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -41,30 +43,10 @@ class UserController extends Controller
      */
     public function show(User $user, Request $request)
     {
-        $posts = $user->posts()->with('tags')->with('comments')
-            ->when(
-                $request->input('search'),
-                function ($query, $search) {
-                    $query->where('name', 'like', "%{$search}%");
-                }
-            )
-            ->when(
-                $request->input('tags'),
-                function ($query, $tags) {
-                    $query->whereHas(
-                        'tags',
-                        function ($query) use ($tags) {
-                            $query->where('name', 'like', "%{$tags}%");
-                        }
-                    );
-                }
-            )
-            ->when(
-                $request->input('draft'),
-                function ($query, $draft) {
-                    $query->where('draft', 'like', "%{$draft}%");
-                }
-            )
+        $userPosts = $user->posts();
+        $posts = QueryBuilder::for($userPosts)->with('tags')->with('comments')
+            ->allowedFilters([AllowedFilter::partial('search', 'name'),
+                AllowedFilter::partial('tags', 'tags.name'), 'draft'])
             ->paginate(5)
             ->withQueryString();
 

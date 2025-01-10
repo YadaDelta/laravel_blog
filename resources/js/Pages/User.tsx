@@ -29,9 +29,10 @@ interface UserProps {
         }>;
     };
     filters: {
-        search: string;
-        tags: string;
-        draft: boolean;
+        filter: any;
+        "filter[search]": string;
+        "filter[tags]": string;
+        "filter[draft]": boolean;
     };
 }
 
@@ -42,65 +43,63 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
             <Container className="mb-3 d-flex text-center justify-content-center w-50">
                 <Link className="mx-3" href={`/posts/create`}>
                     <Button variant="primary" type="submit">
-                        Создать пост
-                    </Button>
-                </Link>
-                <Link className="mx-3" href={`/tags/create`}>
-                    <Button variant="primary" type="submit">
-                        Создать тег
+                        Создать новый пост
                     </Button>
                 </Link>
             </Container>
             <Container className="mb-3 d-flex justify-content-center">
-                <div className="me-3 px-2 border border-primary rounded">
-                    <label>Черновик?</label>
-                    <input
+                <div className="me-3 my-auto px-2 rounded">
+                    <select
                         className="ms-2"
-                        type="checkbox"
-                        id="draft"
                         name="draft"
+                        id="draft"
+                        defaultValue={filters.filter?.draft}
                         onChange={(e) =>
                             router.get(
                                 `/users/${user.id}`,
                                 {
-                                    draft: e.target.checked ? "yes" : "no",
-                                    search: filters.search,
-                                    tags: filters.tags,
+                                    "filter[draft]": e.target.value,
+                                    "filter[search]": filters.filter?.search,
+                                    "filter[tags]": filters.filter?.tags,
                                 },
                                 { preserveState: true }
                             )
                         }
-                    />
+                    >
+                        <option value="">Все посты</option>
+                        <option value="1">Черновики</option>
+                        <option value="0">Опубликованные</option>
+                    </select>
                 </div>
                 <input
-                    className="border border-primary rounded"
+                    className="border border-primary border border-primary rounded"
                     type="text"
                     placeholder="Поиск..."
-                    defaultValue={filters.search}
+                    defaultValue={filters.filter?.search}
                     onChange={(e) =>
                         router.get(
                             `/users/${user.id}`,
                             {
-                                draft: filters.draft,
-                                search: e.target.value,
-                                tags: filters.tags,
+                                "filter[draft]": filters.filter?.draft,
+                                "filter[search]": e.target.value,
+                                "filter[tags]": filters.filter?.tags,
                             },
                             { preserveState: true }
                         )
                     }
                 ></input>
                 <input
-                    className="ms-3 border border-primary rounded"
+                    className="ms-3 border border-primary border border-primary rounded"
                     type="text"
                     placeholder="Поиск по тегам..."
-                    defaultValue={filters.tags}
+                    defaultValue={filters.filter?.tags}
                     onChange={(e) =>
                         router.get(
                             `/users/${user.id}`,
                             {
-                                draft: filters.draft,
-                                tags: e.target.value,
-                                search: filters.search,
+                                "filter[draft]": filters.filter?.draft,
+                                "filter[tags]": e.target.value,
+                                "filter[search]": filters.filter?.search,
                             },
                             { preserveState: true }
                         )
@@ -173,15 +172,26 @@ const User: FC<UserProps> = ({ user, posts, filters }) => {
                 })}
             </Container>
             <Container className="d-flex justify-content-center mx-auto my-3">
-                {posts.links.map((link) => (
-                    <Link className="mx-1" key={link.label} href={link.url}>
-                        <Button>
+                {posts.links.map((link) =>
+                    link.url ? (
+                        <Link className="mx-1" key={link.label} href={link.url}>
+                            <Button>
+                                {link.label
+                                    .replace(
+                                        "&laquo; Previous",
+                                        "<< Предыдущая"
+                                    )
+                                    .replace("Next &raquo;", "Следующая >>")}
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Button disabled key={link.label}>
                             {link.label
                                 .replace("&laquo; Previous", "<< Предыдущая")
                                 .replace("Next &raquo;", "Следующая >>")}
                         </Button>
-                    </Link>
-                ))}
+                    )
+                )}
             </Container>
         </>
     );
