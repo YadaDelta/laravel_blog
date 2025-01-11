@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { useForm } from "@inertiajs/react";
+import { FC, useState } from "react";
+import { useForm, Link } from "@inertiajs/react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -33,6 +33,8 @@ const Edit: FC<EditProps> = ({ post, allTags, postTags }) => {
         state: post.state,
         tags: postTags.map((a) => a.id),
     });
+
+    const [newTag, setNewTag] = useState<string>("");
 
     const submit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
@@ -91,7 +93,6 @@ const Edit: FC<EditProps> = ({ post, allTags, postTags }) => {
                         />
                     </Form.Group>
                     <Form.Group
-                        className="mb-3"
                         controlId="formBasicTags"
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                             setData(
@@ -115,6 +116,23 @@ const Edit: FC<EditProps> = ({ post, allTags, postTags }) => {
                             ))}
                         </Form.Control>
                     </Form.Group>
+                    <Container className="mb-3 p-0">
+                        <input
+                            className="py-1 my-1 rounded border w-50"
+                            type="newTag"
+                            placeholder="Добавить новый тег в список"
+                            onChange={(e) => setNewTag(e.target.value)}
+                        />
+                        <Link
+                            className="btn btn-primary"
+                            as="button"
+                            href="/tags"
+                            method="post"
+                            data={{ name: newTag }}
+                        >
+                            Добавить
+                        </Link>
+                    </Container>
                     <Form.Group
                         className="mb-3"
                         controlId="formBasicDraft"

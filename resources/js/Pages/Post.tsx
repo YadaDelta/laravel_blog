@@ -24,9 +24,13 @@ interface PostProps {
         id: number;
         name: string;
     }>;
+    user: Array<{
+        id: number;
+        name: string;
+    }>;
 }
 
-const Post: FC<PostProps> = ({ postData, comments, tags }) => {
+const Post: FC<PostProps> = ({ postData, comments, tags, user }) => {
     const { auth } = usePage<any>().props;
     const { setData, post, processing } = useForm({
         post_id: postData.id,
@@ -38,7 +42,7 @@ const Post: FC<PostProps> = ({ postData, comments, tags }) => {
         e.preventDefault();
         post("/comments");
     };
-
+    console.log(user);
     return (
         <>
             <Nav />
@@ -72,6 +76,7 @@ const Post: FC<PostProps> = ({ postData, comments, tags }) => {
                         ))}
                     </div>
                 ) : null}
+                <h5>Автор поста: {user[0].name}</h5>
             </Container>
             <Container className="d-flex align-content-center">
                 <Stack className="text-center m-3 w-50" gap={3}>

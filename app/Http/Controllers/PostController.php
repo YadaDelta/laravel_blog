@@ -35,8 +35,9 @@ class PostController extends Controller
     {
         $comments = $post->comments()->get();
         $tags = $post->tags()->get();
+        $user = $post->user()->get();
 
-        return inertia('Post', ['postData' => $post, 'comments' => $comments, 'tags' => $tags]);
+        return inertia('Post', ['postData' => $post, 'comments' => $comments, 'tags' => $tags, 'user' => $user]);
     }
 
     public function edit(Post $post)
